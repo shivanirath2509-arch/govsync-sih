@@ -1,0 +1,7 @@
+{
+  "buildConfig": {
+    "buildCommand": "npm run build",
+    "buildOutputDirectory": "out",
+    "previewBuildOutputDirectory": "out"
+  }
+}

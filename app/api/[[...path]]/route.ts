@@ -31,7 +31,7 @@ export async function POST(request:Request){return guarded(async()=>{
   if(path[2]==='evaluate'){
    if(app.status==='submitted')throw new ApiError(409,'Application is already submitted.');
    const rows=await db.prepare('SELECT department,normalized FROM checks WHERE application_id = ?').bind(app.id).all<any>();
-   if(!departments.every(d=>rows.results.some(r=>r.department===d)))throw new ApiError(409,'Complete all four department checks first.');
+   if(!departments.every(d=>rows.results.some((r: any)=>r.department===d)))throw new ApiError(409,'Complete all four department checks first.');
    const result=assess(Object.fromEntries(rows.results.map(r=>[r.department,JSON.parse(r.normalized)])));
    await db.batch([db.prepare('UPDATE applications SET status = ?, result = ? WHERE id = ? AND owner = ?').bind(result.status,JSON.stringify(result),app.id,user),event(user,app.id,'Eligibility checked',result.status==='eligible'?'success':'review',result.rules.filter(r=>!r.passed).map(r=>r.label).join('; ')||'All demonstration rules passed.')]);return reply({application:await application(app.id,user),result});
   }

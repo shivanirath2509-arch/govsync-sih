@@ -28,7 +28,7 @@ export function assess(records:Record<string,Record<string,any>>){
  const {identity,education,income,residence}=records;
  const rules=[
  {label:'Identity matches academic record',passed:identity.dateOfBirth===education.dateOfBirth&&identity.name===education.name,detail:'Name and date of birth must agree across sources.'},
- {label:'Academic score at least 75 A pi d d d d dno pura, captual proces tu ne bulta, dhe net, so bulte wednes, s drednes barho, meth ne ple, cali, appnection college, gercaki, night, okay, charked proper proph, nega%',passed:education.marks>=75,detail:`${education.marks}% verified by Education`},
+ {label:'Academic score at least 75%',passed:education.marks>=75,detail:`${education.marks}% verified by Education`},
  {label:'Annual family income at most ₹2,50,000',passed:income.annualIncome<=250000,detail:`₹${Number(income.annualIncome).toLocaleString('en-IN')} verified by Income`},
  {label:'Verified Maharashtra domicile',passed:residence.state==='Maharashtra'&&residence.domicileVerified===true,detail:`${residence.state} · ${residence.district}`},
  ];const status=!rules[0].passed?'needs_review':rules.every(r=>r.passed)?'eligible':'ineligible';
